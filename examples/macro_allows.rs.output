@@ -1,0 +1,12 @@
+Found 2 unused #[allow(...)] attribute(s):
+
+  1. examples/macro_allows.rs:25:10  [lint: dead_code]
+     #[allow(dead_code)]
+             ^^^^^^^^^
+
+  2. examples/macro_allows.rs:30:10  [lint: unused_variables]
+     #[allow(unused_variables)]
+             ^^^^^^^^^^^^^^^^
+
+These #[allow(...)] attributes are not suppressing any lint and can be safely removed.
+Hint: run with --fix to remove them automatically, or use #[expect(...)] instead.

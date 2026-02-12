@@ -47,6 +47,8 @@ struct DiagnosticSpan {
     column_start: usize,
     is_primary: bool,
     text: Vec<SpanText>,
+    /// Present when the span originates from a macro expansion.
+    expansion: Option<serde_json::Value>,
 }
 
 #[derive(Debug, serde::Deserialize)]
@@ -600,9 +602,14 @@ fn run(args: Args) -> anyhow::Result<i32> {
             continue;
         }
 
-        // Grab the primary span
+        // Grab the primary span, skipping macro-expanded spans to avoid
+        // false positives from #[allow] inside macro_rules! bodies.
         for span in &message.spans {
             if !span.is_primary {
+                continue;
+            }
+
+            if span.expansion.is_some() {
                 continue;
             }
 
@@ -890,6 +897,7 @@ fn foo() {}"#;
                 highlight_start: 10,
                 highlight_end: 19,
             }],
+            expansion: None,
         };
         assert_eq!(super::extract_lint_name(&span), "dead_code");
     }
@@ -906,6 +914,7 @@ fn foo() {}"#;
                 highlight_start: 10,
                 highlight_end: 33,
             }],
+            expansion: None,
         };
         assert_eq!(super::extract_lint_name(&span), "clippy::needless_return");
     }
@@ -922,6 +931,7 @@ fn foo() {}"#;
                 highlight_start: 10,
                 highlight_end: 19,
             }],
+            expansion: None,
         };
         assert_eq!(super::extract_lint_name(&span), "dead_code");
     }
@@ -938,6 +948,7 @@ fn foo() {}"#;
                 highlight_start: 21,
                 highlight_end: 37,
             }],
+            expansion: None,
         };
         assert_eq!(super::extract_lint_name(&span), "unused_variables");
     }
@@ -1268,6 +1279,7 @@ fn foo() {}"#;
                 highlight_start: 28,
                 highlight_end: 46,
             }],
+            expansion: None,
         };
         assert_eq!(super::extract_lint_name(&span), "dead_code");
     }
