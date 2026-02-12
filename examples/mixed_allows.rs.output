@@ -1,0 +1,28 @@
+Found 6 unused #[allow(...)] attribute(s):
+
+  1. examples/mixed_allows.rs:35:10  [lint: dead_code]
+     #[allow(dead_code)]
+             ^^^^^^^^^
+
+  2. examples/mixed_allows.rs:40:10  [lint: unused_variables]
+     #[allow(unused_variables)]
+             ^^^^^^^^^^^^^^^^
+
+  3. examples/mixed_allows.rs:45:10  [lint: non_snake_case]
+     #[allow(non_snake_case)]
+             ^^^^^^^^^^^^^^
+
+  4. examples/mixed_allows.rs:50:10  [lint: unreachable_code]
+     #[allow(unreachable_code)]
+             ^^^^^^^^^^^^^^^^
+
+  5. examples/mixed_allows.rs:55:10  [lint: clippy::needless_return]
+     #[allow(clippy::needless_return)]
+             ^^^^^^^^^^^^^^^^^^^^^^^
+
+  6. examples/mixed_allows.rs:60:10  [lint: unused_imports]
+     #[allow(unused_imports)]
+             ^^^^^^^^^^^^^^
+
+These #[allow(...)] attributes are not suppressing any lint and can be safely removed.
+Hint: run with --fix to remove them automatically, or use #[expect(...)] instead.

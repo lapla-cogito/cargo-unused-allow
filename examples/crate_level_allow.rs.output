@@ -1,0 +1,16 @@
+Found 3 unused #[allow(...)] attribute(s):
+
+  1. examples/crate_level_allow.rs:1:11  [lint: non_camel_case_types]
+     #![allow(non_camel_case_types)]
+              ^^^^^^^^^^^^^^^^^^^^
+
+  2. examples/crate_level_allow.rs:2:11  [lint: unreachable_code]
+     #![allow(unreachable_code)]
+              ^^^^^^^^^^^^^^^^
+
+  3. examples/crate_level_allow.rs:3:11  [lint: unused_assignments]
+     #![allow(unused_assignments)]
+              ^^^^^^^^^^^^^^^^^^
+
+These #[allow(...)] attributes are not suppressing any lint and can be safely removed.
+Hint: run with --fix to remove them automatically, or use #[expect(...)] instead.

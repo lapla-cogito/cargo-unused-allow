@@ -1,0 +1,61 @@
+#![cfg_attr(debug_assertions, allow(non_camel_case_types))]
+
+#[cfg_attr(debug_assertions, allow(dead_code))]
+fn actually_used() -> i32 {
+    42
+}
+
+#[cfg_attr(debug_assertions, allow(unused_variables))]
+fn all_vars_used(x: i32, y: i32) -> i32 {
+    x + y
+}
+
+#[cfg_attr(debug_assertions, allow(unused_imports))]
+use std::collections::HashMap;
+
+#[cfg_attr(debug_assertions, allow(dead_code, unused_mut))]
+fn used_and_mutated() -> Vec<i32> {
+    let mut v = Vec::new();
+    v.push(1);
+    v
+}
+
+#[cfg_attr(debug_assertions, allow(dead_code))]
+fn never_called() -> u64 {
+    0xDEAD
+}
+
+#[cfg_attr(debug_assertions, allow(unused_variables))]
+fn ignores_param(unused: i32) -> &'static str {
+    "I don't use the parameter"
+}
+
+#[cfg_attr(debug_assertions, allow(non_snake_case))]
+fn NotSnakeCase() -> bool {
+    true
+}
+
+#[cfg_attr(doc, allow(dead_code))]
+fn used_but_cfg_false() -> i32 {
+    99
+}
+
+#[cfg_attr(doc, allow(unused_variables))]
+fn also_fine(a: i32, b: i32) -> i32 {
+    a + b
+}
+
+fn main() {
+    let mut map = HashMap::<&str, i32>::new();
+    map.insert("used", actually_used());
+    map.insert("sum", all_vars_used(1, 2));
+    map.insert("vec_len", used_and_mutated().len() as i32);
+
+    println!("ignores_param: {}", ignores_param(0));
+    println!("NotSnakeCase: {}", NotSnakeCase());
+
+    println!("cfg_false: {}", used_but_cfg_false());
+    println!("also_fine: {}", also_fine(3, 4));
+
+    println!("map: {map:?}");
+}

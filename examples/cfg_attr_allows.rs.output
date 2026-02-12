@@ -1,0 +1,28 @@
+Found 6 unused #[allow(...)] attribute(s):
+
+  1. examples/cfg_attr_allows.rs:1:38  [lint: non_camel_case_types]
+     #![cfg_attr(debug_assertions, allow(non_camel_case_types))]
+                                         ^^^^^^^^^^^^^^^^^^^^
+
+  2. examples/cfg_attr_allows.rs:3:37  [lint: dead_code]
+     #[cfg_attr(debug_assertions, allow(dead_code))]
+                                        ^^^^^^^^^
+
+  3. examples/cfg_attr_allows.rs:8:37  [lint: unused_variables]
+     #[cfg_attr(debug_assertions, allow(unused_variables))]
+                                        ^^^^^^^^^^^^^^^^
+
+  4. examples/cfg_attr_allows.rs:13:37  [lint: unused_imports]
+     #[cfg_attr(debug_assertions, allow(unused_imports))]
+                                        ^^^^^^^^^^^^^^
+
+  5. examples/cfg_attr_allows.rs:16:37  [lint: dead_code]
+     #[cfg_attr(debug_assertions, allow(dead_code, unused_mut))]
+                                        ^^^^^^^^^
+
+  6. examples/cfg_attr_allows.rs:16:48  [lint: unused_mut]
+     #[cfg_attr(debug_assertions, allow(dead_code, unused_mut))]
+                                                   ^^^^^^^^^^
+
+These #[allow(...)] attributes are not suppressing any lint and can be safely removed.
+Hint: run with --fix to remove them automatically, or use #[expect(...)] instead.

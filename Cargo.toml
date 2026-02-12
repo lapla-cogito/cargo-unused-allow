@@ -1,0 +1,22 @@
+[package]
+name = "cargo-unused-allow"
+version = "0.1.0"
+edition = "2024"
+description = "Detect unused #[allow(...)] attributes in Rust projects"
+license = "MIT"
+repository = "https://github.com/lapla-cogito/cargo-unused-allow"
+readme = "README.md"
+keywords = ["cargo", "clippy", "lint"]
+categories = ["development-tools::cargo-plugins"]
+
+[[bin]]
+name = "cargo-unused-allow"
+path = "src/main.rs"
+
+[dependencies]
+anyhow = "1.0.101"
+clap = { version = "4.5.58", features = ["derive"] }
+regex = "1.12.3"
+serde = { version = "1.0.228", features = ["derive"] }
+serde_json = "1.0.149"
+walkdir = "2.5.0"

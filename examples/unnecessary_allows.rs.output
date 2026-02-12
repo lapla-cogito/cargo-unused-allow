@@ -1,0 +1,44 @@
+Found 10 unused #[allow(...)] attribute(s):
+
+  1. examples/unnecessary_allows.rs:1:10  [lint: dead_code]
+     #[allow(dead_code)]
+             ^^^^^^^^^
+
+  2. examples/unnecessary_allows.rs:6:10  [lint: unused_variables]
+     #[allow(unused_variables)]
+             ^^^^^^^^^^^^^^^^
+
+  3. examples/unnecessary_allows.rs:11:10  [lint: unused_imports]
+     #[allow(unused_imports)]
+             ^^^^^^^^^^^^^^
+
+  4. examples/unnecessary_allows.rs:14:10  [lint: non_snake_case]
+     #[allow(non_snake_case)]
+             ^^^^^^^^^^^^^^
+
+  5. examples/unnecessary_allows.rs:19:10  [lint: unused_mut]
+     #[allow(unused_mut)]
+             ^^^^^^^^^^
+
+  6. examples/unnecessary_allows.rs:27:10  [lint: unreachable_code]
+     #[allow(unreachable_code)]
+             ^^^^^^^^^^^^^^^^
+
+  7. examples/unnecessary_allows.rs:32:10  [lint: clippy::needless_return]
+     #[allow(clippy::needless_return)]
+             ^^^^^^^^^^^^^^^^^^^^^^^
+
+  8. examples/unnecessary_allows.rs:37:10  [lint: dead_code]
+     #[allow(dead_code, unused_variables)]
+             ^^^^^^^^^
+
+  9. examples/unnecessary_allows.rs:37:21  [lint: unused_variables]
+     #[allow(dead_code, unused_variables)]
+                        ^^^^^^^^^^^^^^^^
+
+  10. examples/unnecessary_allows.rs:54:14  [lint: clippy::big_endian_bytes]
+     #[allow(clippy::big_endian_bytes)]
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+
+These #[allow(...)] attributes are not suppressing any lint and can be safely removed.
+Hint: run with --fix to remove them automatically, or use #[expect(...)] instead.
