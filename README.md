@@ -1,5 +1,7 @@
 # cargo-unused-allow
 
+[![cargo-unused-allow](https://img.shields.io/crates/v/cargo-unused-allow.svg)](https://crates.io/crates/cargo-unused-allow)
+
 Detect unused `#[allow(...)]` attributes in Rust projects.
 
 ## How it works
@@ -8,6 +10,12 @@ Detect unused `#[allow(...)]` attributes in Rust projects.
 2. Runs `cargo clippy --message-format=json -- -Wunfulfilled-lint-expectations` once.
 3. Parses `unfulfilled_lint_expectations` diagnostics — each one corresponds to an `#[allow]` that was suppressing nothing.
 4. Restores all original files (even on failure or panic).
+
+## Why?
+
+Rust 1.81 stabilized `#[expect(...)]`, which warns you when the suppressed lint no longer fires — but many projects still carry `#[allow]` attributes added before `#[expect]` existed, or out of habit. Over time, some of these become stale: the guarded code is refactored away, the lint rule changes, or the attribute was copy-pasted without thought. This is especially common in larger codebases. Stale `#[allow]`s silently hide real warnings and mask code-quality regressions, yet finding them manually is tedious.
+
+`cargo-unused-allow` automates this. It detects every `#[allow]` that suppresses nothing — useful as a one-time cleanup, a CI gate, or a stepping stone toward migrating to `#[expect]`.
 
 ## Requirements
 
