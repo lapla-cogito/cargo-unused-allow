@@ -49,6 +49,12 @@ cargo-unused-allow --fix
 cargo-unused-allow --exclude dead_code --exclude unused_imports
 # Combine options
 cargo-unused-allow --all-targets --fix --exclude dead_code
+
+# Pass extra arguments to cargo clippy (after --)
+cargo-unused-allow -- --workspace
+cargo-unused-allow -- --package my-crate
+cargo-unused-allow -- --workspace --features serde
+cargo-unused-allow --all-targets -- --workspace
 ```
 
 When installed via `cargo install`, you can also invoke it as a cargo subcommand:
@@ -64,7 +70,10 @@ $ cargo unused-allow --help
 
 Detect unused #[allow(...)] attributes in Rust projects
 
-Usage: cargo-unused-allow [OPTIONS]
+Usage: cargo-unused-allow [OPTIONS] [-- <CLIPPY_ARGS>...]
+
+Arguments:
+  [CLIPPY_ARGS]...  Extra arguments passed through to `cargo clippy` (specify after --)
 
 Options:
       --all-targets     Check all targets (tests, examples, etc...)

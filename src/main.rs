@@ -5,7 +5,8 @@ use anyhow::Context as _;
     name = "cargo-unused-allow",
     bin_name = "cargo-unused-allow",
     version,
-    about = "Detect unused #[allow(...)] attributes in Rust projects"
+    about = "Detect unused #[allow(...)] attributes in Rust projects",
+    override_usage = "cargo-unused-allow [OPTIONS] [-- <CLIPPY_ARGS>...]"
 )]
 struct Args {
     /// Check all targets (tests, examples, etc...)
@@ -19,6 +20,10 @@ struct Args {
     /// Lint names to exclude from detection (can be specified multiple times)
     #[arg(long = "exclude", value_name = "LINT")]
     excludes: Vec<String>,
+
+    /// Extra arguments passed through to `cargo clippy` (specify after --)
+    #[arg(last = true, value_name = "CLIPPY_ARGS", hide = false)]
+    clippy_args: Vec<String>,
 }
 
 #[derive(Debug, serde::Deserialize)]
@@ -554,16 +559,32 @@ fn run(args: Args) -> anyhow::Result<i32> {
         return Ok(0);
     }
 
+    let (user_cargo_args, user_lint_args) = {
+        let mut cargo = Vec::new();
+        let mut lint = Vec::new();
+        let mut after_separator = false;
+        for arg in &args.clippy_args {
+            if !after_separator && arg == "--" {
+                after_separator = true;
+            } else if after_separator {
+                lint.push(arg.as_str());
+            } else {
+                cargo.push(arg.as_str());
+            }
+        }
+        (cargo, lint)
+    };
+
     let mut cmd = std::process::Command::new("cargo");
     cmd.arg("clippy");
     if args.all_targets {
         cmd.arg("--all-targets");
     }
-    cmd.args([
-        "--message-format=json",
-        "--",
-        "-Wunfulfilled-lint-expectations",
-    ]);
+    cmd.args(&user_cargo_args);
+    cmd.arg("--message-format=json");
+    cmd.arg("--");
+    cmd.arg("-Wunfulfilled-lint-expectations");
+    cmd.args(&user_lint_args);
     cmd.current_dir(&project_root);
     cmd.stdout(std::process::Stdio::piped());
     cmd.stderr(std::process::Stdio::inherit());
